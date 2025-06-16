@@ -1,41 +1,42 @@
-#include<bits/stdc++.h>
-using namespace std;
-int main()
+class Solution
 {
-    int n,tar;
-    cin>>n>>tar;
-    vector<int>vec(n);
-    for(int i=0; i<n; i++)
-        cin>>vec[i];
-    int left=0,right=n-1,res=-1;
-    while(left<=right)
+public:
+    int search(vector<int>& nums, int target)
     {
-        int mid=left+(right-left)/2;
-        if(vec[mid]==tar)
+        int left = 0, right = nums.size() - 1;
+
+        while (left <= right)
         {
-            res=mid;
-            break;
-        }
-        if(vec[left]<=vec[mid])
-        {
-            if(vec[left]<=tar and vec[mid]>tar)
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target)
             {
-                right=mid-1;
+                return mid;
+            }
+            if (nums[left] <= nums[mid])
+            {
+                if (nums[left] <= target && target < nums[mid])
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    left = mid + 1;
+                }
             }
             else
             {
-                left=mid+1;
+                if (nums[mid] < target && target <= nums[right])
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
             }
         }
-        if(vec[mid]<=vec[right])
-        {
-            if(vec[right]>=vec[mid] and vec[mid]<tar)
-            {
-                left=mid+1;
-            }
-            else
-                right=mid-1;
-        }
+
+        return -1;
     }
-    cout<<res<<endl;
-}
+};
